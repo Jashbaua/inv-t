@@ -1,0 +1,31 @@
+<div class="investment-management">
+    <div class="past-activity">
+      <h2>Past Activity</h2>
+      <ul>
+        <li *ngFor="let activity of pastActivities">
+          {{ activity.date }} - {{ activity.description }}
+        </li>
+      </ul>
+    </div>
+    <div class="current-investment">
+      <h2>Current Investment</h2>
+      <p>Invested Amount: {{ investedAmount }}</p>
+      <div>
+        <label for="withdrawAmount">Withdraw Amount:</label>
+        <input id="withdrawAmount" type="number" [(ngModel)]="withdrawAmount">
+        <button (click)="withdraw()">Withdraw</button>
+      </div>
+      <div *ngIf="!investedAmount">
+        <label for="investmentAmount">Investment Amount:</label>
+        <input id="investmentAmount" type="number" [(ngModel)]="investmentAmount">
+        <label for="investmentDate">Date:</label>
+        <input id="investmentDate" type="date" [(ngModel)]="investmentDate">
+        <button (click)="invest()">Invest</button>
+      </div>
+      <div>
+        <label for="interestRate">Interest Rate (%):</label>
+        <input id="interestRate" type="number" [(ngModel)]="interestRate">
+        <button (click)="confirmInterest()">Set Interest</button>
+      </div>
+    </div>
+  </div>

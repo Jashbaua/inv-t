@@ -39,6 +39,7 @@ app.get('/api/data', async (req, res) => {
     try {
         // const result = await pool.query('SELECT * FROM mytable');
         // res.status(200).json(result.rows);
+        res.send('hello world')
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');

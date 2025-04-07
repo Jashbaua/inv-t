@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, HostListener, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -35,11 +36,10 @@ export class InvManagerComponent {
 
   @ViewChildren('activityItem') activityItems! : QueryList<ElementRef>;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private readonly cdr: ChangeDetectorRef, private readonly http: HttpClient) {}
 
   ngOnInit(): void {
-    // Fetch past activities from server (hardcoded for now)
-    // this.fetchPastActivities();
+    this.fetchPastActivities();
     this.checkScreenSize();
   }
 
@@ -122,7 +122,17 @@ export class InvManagerComponent {
     return `${day}-${month}-${year}`;
   }
 
-  // fetchPastActivities(): void {
-  // // Fetch from server
-  // }
+  fetchPastActivities(): void {
+    this.http.get<any[]>('http://localhost:3000/api/data') // Replace with your actual API endpoint
+      .subscribe({
+        next: (activities) => {
+          this.pastActivities = activities; // Assuming the response is an array of activities
+          this.cdr.detectChanges(); // Trigger change detection if necessary
+        },
+        error: (error) => {
+          console.error('Error fetching past activities:', error);
+          // Handle error appropriately, e.g., show a notification to the user
+        }
+      });
+  }
 }

@@ -12,8 +12,6 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      max-height: 600px;
   
       h2 {
         margin-bottom: 15px;
@@ -34,9 +32,14 @@
           }
         }
       }
+      .total-amount {
+        float: right; // Aligns the total amount to the right
+        font-weight: bold; // Makes the total amount bold
+        color: #333; // Darker font color for visibility
+      }
     }
   
-    .current-investment {
+    .dashboard {
       flex: 1;
       background-color: #ffffff;
       padding: 20px;
@@ -94,5 +97,13 @@
           }
         }
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .investment-management {
+      flex-direction: column-reverse;
+      padding: 0px;
+      background-color: white;
     }
   }

@@ -2,18 +2,30 @@
     <div class="past-activity">
       <h2>Past Activity</h2>
       <ul>
-        <li *ngFor="let activity of pastActivities">
-          {{ activity.date }} - {{ activity.description }}
+        <li *ngFor="let activity of pastActivities; let i = index" #activityItem>
+          <div *ngIf="!isMobile">
+              {{ activity.date }} - {{ activity.description }}
+              <span class="total-amount">{{ activity.totalAmount | currency:'INR':'symbol':'1.0-0' }}</span>
+          </div>
+          <div *ngIf="isMobile" (click)="toggleDetails(i)" (keydown)="toggleDetails(i)">
+            <span>{{activity.description}}</span>
+            <div *ngIf="showActivityDetails">
+                <p>Total Amount - {{activity.totalAmount | currency:'INR':'symbol':'1.0-0' }}</p>
+                <p>Date - {{activity.date}}</p>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
-    <div class="current-investment">
-      <h2>Current Investment</h2>
-      <p>Invested Amount: {{ investedAmount }}</p>
-      <div>
+    <div class="dashboard">
+      <div class="current-investment" (click)="toggleDashboard()" (keydown)="toggleDashboard()">
+          <h2>Current Investment</h2>
+          <p>Invested Amount: {{ investedAmount | currency:'INR':'symbol':'1.0-0' }}</p>
+      </div>
+      <div *ngIf="!isMobile || (isMobile&&showDashboard)">
         <label for="withdrawAmount">Withdraw Amount:</label>
         <input id="withdrawAmount" type="number" [(ngModel)]="withdrawAmount">
-        <button (click)="withdraw()">Withdraw</button>
+        <button (click)="withdraw()" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Withdraw</button>
       </div>
       <div *ngIf="!investedAmount">
         <label for="investmentAmount">Investment Amount:</label>
@@ -22,10 +34,10 @@
         <input id="investmentDate" type="date" [(ngModel)]="investmentDate">
         <button (click)="invest()">Invest</button>
       </div>
-      <div>
+      <div *ngIf="!isMobile || (isMobile&&showDashboard)">
         <label for="interestRate">Interest Rate (%):</label>
         <input id="interestRate" type="number" [(ngModel)]="interestRate">
-        <button (click)="confirmInterest()">Set Interest</button>
+        <button (click)="confirmInterest()" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Set Interest</button>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,8 +11,17 @@ import { FormsModule } from '@angular/forms';
 export class InvManagerComponent {
 
   pastActivities = [
-    { date: '01-04-2025', description: 'Invested $1000', totalAmount: 1000 },
-    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: -200 },
+    { date: '01-04-2025', description: 'Invested $1000', totalAmount: 100000000000000},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
+    { date: '02-04-2025', description: 'Withdrew $200', totalAmount: 800},
     // Add more hardcoded activities here
   ];
   investedAmount = 0; // Hardcoded initial amount
@@ -20,10 +29,43 @@ export class InvManagerComponent {
   investmentAmount: number = 0;
   investmentDate: string = '';
   interestRate: number = 0;
+  isMobile: boolean = false;
+  showDashboard: boolean = true;
+  showActivityDetails: boolean = false;
+
+  @ViewChildren('activityItem') activityItems! : QueryList<ElementRef>;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // Fetch past activities from server (hardcoded for now)
     // this.fetchPastActivities();
+    this.checkScreenSize();
+  }
+
+  toggleDetails(index:number) {
+    // Toggle the visibility of the clicked activity's details
+    this.showActivityDetails= !this.showActivityDetails;
+
+    this.cdr.detectChanges()
+
+    // Scroll the clicked activity into view
+    const element=this.activityItems.toArray()[index].nativeElement;
+    element.scrollIntoView({ behavior: 'smooth',block:'center'});
+  }
+
+  toggleDashboard(){
+    this.showDashboard=!this.showDashboard
+  }
+
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth < 768; // Adjust the breakpoint as needed
+    console.log('Is mobile view:', this.isMobile);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkScreenSize(); // Check screen size on resize
   }
 
   withdraw(): void {
@@ -33,14 +75,16 @@ export class InvManagerComponent {
         this.pastActivities.push({ 
           date: this.formatDate(new Date()), 
           description: `Added $${-this.withdrawAmount}`, 
-          totalAmount: -this.withdrawAmount 
+          totalAmount: -this.withdrawAmount ,
+
         });
       } else if (this.withdrawAmount <= this.investedAmount) {
         this.investedAmount -= this.withdrawAmount;
         this.pastActivities.push({ 
           date: this.formatDate(new Date()), 
           description: `Withdrew $${this.withdrawAmount}`, 
-          totalAmount: -this.withdrawAmount 
+          totalAmount: -this.withdrawAmount,
+
         });
       }
       this.withdrawAmount = 0;
@@ -53,7 +97,7 @@ export class InvManagerComponent {
       this.pastActivities.push({ 
         date: this.formatDate(new Date(this.investmentDate)), 
         description: `Invested $${this.investmentAmount}`, 
-        totalAmount: this.investmentAmount 
+        totalAmount: this.investmentAmount ,
       });
       this.investmentAmount = 0;
       this.investmentDate = '';
@@ -65,7 +109,7 @@ export class InvManagerComponent {
       this.pastActivities.push({ 
         date: this.formatDate(new Date()), 
         description: `Set interest rate to ${this.interestRate}%`, 
-        totalAmount: 0 // Assuming no amount change for interest rate setting
+        totalAmount: 0, // Assuming no amount change for interest rate setting
       });
       this.interestRate = 0;
     }

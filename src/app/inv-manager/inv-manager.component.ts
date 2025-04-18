@@ -36,7 +36,10 @@ export class InvManagerComponent {
 
   @ViewChildren('activityItem') activityItems! : QueryList<ElementRef>;
 
-  constructor(private readonly cdr: ChangeDetectorRef, private readonly http: HttpClient) {}
+  constructor(
+    private readonly cdr: ChangeDetectorRef,
+    private readonly http: HttpClient,
+  ) {}
 
   ngOnInit(): void {
     this.fetchPastActivities();
@@ -123,7 +126,7 @@ export class InvManagerComponent {
   }
 
   fetchPastActivities(): void {
-    this.http.get<any[]>('http://localhost:3000/api/data') // Replace with your actual API endpoint
+    this.http.get<any[]>('https://inv-t.onrender.com/api/data') // Replace with your actual API endpoint
       .subscribe({
         next: (activities) => {
           this.pastActivities = activities; // Assuming the response is an array of activities

@@ -128,8 +128,8 @@ export class InvManagerComponent {
   fetchPastActivities(): void {
     this.http.get<any[]>('https://inv-t.onrender.com/api/data') // Replace with your actual API endpoint
       .subscribe({
-        next: (activities) => {
-          this.pastActivities = activities; // Assuming the response is an array of activities
+        next: (data) => {
+          console.log(data) // Assuming the response is an array of activities
           this.cdr.detectChanges(); // Trigger change detection if necessary
         },
         error: (error) => {

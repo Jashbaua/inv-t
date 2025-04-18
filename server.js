@@ -18,28 +18,22 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Endpoint to store data
-app.post('/api/data', async (req, res) => {
-    const { property1, property2, array_of_strings } = req.body;
-    try {
-        console.log('posted')
-        // const result = await pool.query(
-        //     'INSERT INTO mytable (property1, property2, array_of_strings) VALUES ($1, $2, $3) RETURNING *',
-        //     [property1, property2, array_of_strings]
-        // );
-        // res.status(201).json(result.rows[0]);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
-    }
-});
+// app.post('/api/data', async (req, res) => {
+//     const { property1, property2, array_of_strings } = req.body;
+//     try {
+//         console.log('posted')
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Server error');
+//     }
+// });
 
 // Endpoint to retrieve data
 app.get('/api/data', async (req, res) => {
     console.log('getted')
     try {
-        // const result = await pool.query('SELECT * FROM mytable');
-        // res.status(200).json(result.rows);
-        res.send('hello world')
+        const result = await pool.query('SELECT * FROM metadata');
+        res.json(result.rows); // Return all rows from the metadata table
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, HostListener, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SupabaseService } from '../services/supabase.service';
 
 @Component({
   selector: 'app-inv-manager',
@@ -38,7 +38,7 @@ export class InvManagerComponent {
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
-    private readonly http: HttpClient,
+    private supabaseService: SupabaseService,
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +63,6 @@ export class InvManagerComponent {
 
   checkScreenSize(): void {
     this.isMobile = window.innerWidth < 768; // Adjust the breakpoint as needed
-    console.log('Is mobile view:', this.isMobile);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -125,17 +124,7 @@ export class InvManagerComponent {
     return `${day}-${month}-${year}`;
   }
 
-  fetchPastActivities(): void {
-    this.http.get<any[]>('https://inv-t.onrender.com/api/data') // Replace with your actual API endpoint
-      .subscribe({
-        next: (data) => {
-          console.log(data) // Assuming the response is an array of activities
-          this.cdr.detectChanges(); // Trigger change detection if necessary
-        },
-        error: (error) => {
-          console.error('Error fetching past activities:', error);
-          // Handle error appropriately, e.g., show a notification to the user
-        }
-      });
+  async fetchPastActivities() {
+    console.log(await this.supabaseService.fetchData())
   }
 }

@@ -17,6 +17,7 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@ngx-env/builder": "^19.0.4",
     "@supabase/supabase-js": "^2.49.4",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",

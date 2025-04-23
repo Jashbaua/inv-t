@@ -4,14 +4,14 @@
       <ul>
         <li *ngFor="let activity of pastActivities; let i = index" #activityItem>
           <div *ngIf="!isMobile">
-              {{ activity.date }} - {{ activity.description }}
-              <span class="total-amount">{{ activity.totalAmount | currency:'INR':'symbol':'1.0-0' }}</span>
+              {{ activity.created_at }} - {{ activity.activity }}
+              <span class="total-amount">{{ activity.total_amount | currency:'INR':'symbol':'1.0-0' }}</span>
           </div>
           <div *ngIf="isMobile" (click)="toggleDetails(i)" (keydown)="toggleDetails(i)">
-            <span>{{activity.description}}</span>
+            <span>{{activity.activity}}</span>
             <div *ngIf="showActivityDetails">
-                <p>Total Amount - {{activity.totalAmount | currency:'INR':'symbol':'1.0-0' }}</p>
-                <p>Date - {{activity.date}}</p>
+                <p>Total Amount - {{activity.total_amount | currency:'INR':'symbol':'1.0-0' }}</p>
+                <p>Date - {{activity.created_at}}</p>
             </div>
           </div>
         </li>
@@ -22,22 +22,31 @@
           <h2>Current Investment</h2>
           <p>Invested Amount: {{ investedAmount | currency:'INR':'symbol':'1.0-0' }}</p>
       </div>
-      <div *ngIf="!isMobile || (isMobile&&showDashboard)">
-        <label for="withdrawAmount">Withdraw Amount:</label>
-        <input id="withdrawAmount" type="number" [(ngModel)]="withdrawAmount">
-        <button (click)="withdraw()" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Withdraw</button>
-      </div>
-      <div *ngIf="!investedAmount">
-        <label for="investmentAmount">Investment Amount:</label>
-        <input id="investmentAmount" type="number" [(ngModel)]="investmentAmount">
-        <label for="investmentDate">Date:</label>
-        <input id="investmentDate" type="date" [(ngModel)]="investmentDate">
-        <button (click)="invest()">Invest</button>
-      </div>
-      <div *ngIf="!isMobile || (isMobile&&showDashboard)">
-        <label for="interestRate">Interest Rate (%):</label>
-        <input id="interestRate" type="number" [(ngModel)]="interestRate">
-        <button (click)="confirmInterest()" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Set Interest</button>
-      </div>
+      @if(isloggedin){
+        <div *ngIf="!isMobile || (isMobile&&showDashboard)">
+          <label for="withdrawAmount">Withdraw Amount:</label>
+          <input id="withdrawAmount" type="number" [(ngModel)]="withdrawAmount">
+          <button (click)="withdraw()" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Withdraw</button>
+        </div>
+        <div *ngIf="!investedAmount">
+          <label for="investmentAmount">Investment Amount:</label>
+          <input id="investmentAmount" type="number" [(ngModel)]="investmentAmount">
+          <label for="investmentDate">Date:</label>
+          <input id="investmentDate" type="date" [(ngModel)]="investmentDate">
+          <button (click)="invest()">Invest</button>
+        </div>
+        <div *ngIf="!isMobile || (isMobile&&showDashboard)">
+          <label for="interestRate">Interest Rate (%):</label>
+          <input id="interestRate" type="number" [(ngModel)]="interestRate">
+          <button (click)="confirmInterest()" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Set Interest</button>
+        </div>
+      }
+      @else {
+        <div *ngIf="!isMobile || (isMobile&&showDashboard)">
+          <label for="password">Password:</label>
+          <input id="password" type="password" [(ngModel)]="password">
+          <button (click)="signIn('test@test.com',password)" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Enter</button>
+        </div>
+      }
     </div>
   </div>

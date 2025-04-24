@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    supabaseUrl: '',
-    supabaseKey: ''
+    supabaseUrl: import.meta.env.NG_APP_supabaseUrl,
+    supabaseKey: import.meta.env.NG_APP_supabaseKey
   };
   

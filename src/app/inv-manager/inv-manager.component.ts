@@ -183,7 +183,7 @@ export class InvManagerComponent {
         },
         past_activity:{
           created_at: this.investmentDate,
-          activity: `Invested ₹${this.investmentAmount}`,
+          activity: `Invested ₹${this.investmentAmount} at ${this.interestRate}% interest`,
           total_amount: this.investedAmount
         }
       })
@@ -192,6 +192,9 @@ export class InvManagerComponent {
       this.investmentDate = '';
       await this.fetchData()
       await this.generateActivities()
+    }
+    else{
+      alert('Invalid parameters');
     }
   }
 
@@ -204,7 +207,7 @@ export class InvManagerComponent {
           updated_at: new Date().toISOString()
         },
         past_activity:{
-          activity: `Set interest rate to ${this.interestRate}%`,
+          activity: `Changed interest rate to ${this.interestRate}%`,
           total_amount: this.investedAmount
         }
       })

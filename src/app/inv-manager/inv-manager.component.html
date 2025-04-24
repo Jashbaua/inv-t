@@ -23,7 +23,7 @@
           <p>Invested Amount: {{ investedAmount | currency:'INR':'symbol':'1.0-0' }}</p>
       </div>
       @if(isloggedin){
-        <div *ngIf="!isMobile || (isMobile&&showDashboard)">
+        <div *ngIf="(!isMobile || (isMobile&&showDashboard)) && investedAmount">
           <label for="withdrawAmount">Withdraw Amount:</label>
           <input id="withdrawAmount" type="number" [(ngModel)]="withdrawAmount">
           <button (click)="withdraw()" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Withdraw</button>
@@ -33,9 +33,11 @@
           <input id="investmentAmount" type="number" [(ngModel)]="investmentAmount">
           <label for="investmentDate">Date:</label>
           <input id="investmentDate" type="date" [(ngModel)]="investmentDate">
+          <label for="setInterestRate">Interest Rate (%):</label>
+          <input id="setInterestRate" type="number" [(ngModel)]="interestRate">
           <button (click)="invest()">Invest</button>
         </div>
-        <div *ngIf="!isMobile || (isMobile&&showDashboard)">
+        <div *ngIf="(!isMobile || (isMobile&&showDashboard)) && investedAmount">
           <label for="interestRate">Interest Rate (%):</label>
           <input id="interestRate" type="number" [(ngModel)]="interestRate">
           <button (click)="confirmInterest()" (click)="toggleDashboard()" (keydown)="toggleDashboard()">Set Interest</button>

@@ -5,7 +5,7 @@ const envConfigFile = `
 export const environment = {
   production: true,
   // name should match Netlify env key/keys
-  supabaseURL: '${process.env.supabaseURL}',
+  supabaseUrl: '${process.env.supabaseUrl}',
   supabaseKey: '${process.env.supabaseKey}'
 };
 `;

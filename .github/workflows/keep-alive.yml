@@ -1,0 +1,13 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    - cron: '0 0 */5 * *'   # at 00:00 UTC on every 5th day of the month
+  workflow_dispatch:       # lets you kick it off manually too
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping keep-alive endpoint
+        run: curl -m 10 "${{ secrets.KEEP_ALIVE_URL }}"
